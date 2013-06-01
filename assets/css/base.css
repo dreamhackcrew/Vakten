@@ -1,0 +1,82 @@
+.main-container {
+    padding-top:20px;
+}
+
+.search-area-wrapper {
+    background: url("../images/main-bg.jpg") no-repeat scroll center top / 100% auto #353B65;
+    background: url("../images/pat_04.png") #ED8B00 !important;
+    height: auto !important;
+    min-height: 279px;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.3);
+}
+
+.navbar {
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.3);
+}
+
+.search-area-wrapper .search-area {
+    padding: 50px 0;
+}
+h3.search-header {
+    color: #FFFFFF;
+    font-family: "Open Sans",sans-serif;
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+}
+p.search-tag-line {
+    color: #FFFFFF;
+    font-family: "Droid Serif",serif;
+    font-size: 18px;
+    font-style: italic;
+    line-height: 28px;
+    text-align: center;
+}
+form.search-form {
+    margin: 40px 0 0;
+    text-align: center;
+}
+form.search-form .input-common, form.search-form input.search-term, form.search-form input.search-btn {
+    border: medium none;
+    border-radius: 0 0 0 0;
+    box-shadow: none;
+    display: inline-block;
+    font-family: "Open Sans",sans-serif;
+    vertical-align: bottom;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
+}
+form.search-form input.search-term {
+    color: #858C91;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    margin-bottom: 0;
+    margin-right: 10px;
+    padding: 12px;
+    width: 72%;
+}
+form.search-form input.search-term.loading {
+    background-image: url("../images/search-loader.gif");
+    background-position: 98% 50%;
+    background-repeat: no-repeat;
+}
+form.search-form input.search-btn {
+    background-color: #3F4B55;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 19px;
+    padding: 14px 30px 15px;
+}
+form.search-form input.search-btn:hover {
+    background-color: #4B5760;
+}
+#search-error-container label {
+    color: #FFFFFF;
+    font-size: 14px;
+    padding: 5px;
+}
+.lt-ie8 form.search-form input.search-btn {
+    padding-bottom: 13px;
+    padding-top: 12px;
+}
