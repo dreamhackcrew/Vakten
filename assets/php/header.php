@@ -9,8 +9,8 @@
     <meta name="author" content="">
 
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet" media="screen"> 
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="http://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <script src="/assets/js/jquery-latest.js"></script>
+    <script src="/assets/js/jquery-ui-git.js"></script>
 
     <style type="text/css">
       body {

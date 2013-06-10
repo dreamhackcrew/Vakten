@@ -31,9 +31,9 @@ class oauth_client {
             $parameters[urlencode($key)] = urlencode($line);
         }
 
-        $base_string = 'GET&'.urlencode('http://api.crew.dreamhack.se/oauth/request_token').'&'.urlencode(http_build_query($query));
+        $this->base_string = 'GET&'.urlencode('http://api.crew.dreamhack.se/oauth/request_token').'&'.urlencode(http_build_query($query));
 
-        $query['oauth_signature'] = $this->sign($base_string, $this->secret,'');
+        $query['oauth_signature'] = $this->sign($this->base_string, $this->secret,'');
         
         $resp = file_get_contents("http://api.crew.dreamhack.se/oauth/request_token?".http_build_query($query));
         $resp = json_decode($resp,true);
@@ -58,8 +58,8 @@ class oauth_client {
         $parameters['oauth_verifier'] = urlencode($verifier);
         ksort($parameters);
 
-        $base_string = 'POST&'.urlencode('http://api.crew.dreamhack.se/oauth/access_token').'&'.urlencode(http_build_query($parameters));
-        $query['oauth_signature'] = $this->sign($base_string, $this->secret,$this->token_secret);
+        $this->base_string = 'POST&'.urlencode('http://api.crew.dreamhack.se/oauth/access_token').'&'.urlencode(http_build_query($parameters));
+        $query['oauth_signature'] = $this->sign($this->base_string, $this->secret,$this->token_secret);
         
         $resp = $this->do_post_request("http://api.crew.dreamhack.se/oauth/access_token?".http_build_query($query),'oauth_verifier='.$verifier);
         $resp = json_decode($resp,true);
@@ -71,6 +71,8 @@ class oauth_client {
     {
 
         $key = urlencode($consumer_secret).'&'.urlencode($token_secret);
+
+        $this->base_string = $base_string;
 
         if (function_exists('hash_hmac')) {
             $signature = base64_encode(hash_hmac("sha1", $base_string, $key, true));
@@ -168,7 +170,9 @@ class oauth_client {
 
 if ( isset($_GET['exit']) ) {
     $_SESSION = array();
+    setcookie("auth", "", time()-3600);
     header('Location: /');
+    return true;
 }
 
 $oauth = new oauth_client();
@@ -176,11 +180,23 @@ $oauth = new oauth_client();
 $oauth->set_customer_key("45a3f35c73cbebd96736c94cd10eec32d422184a");
 $oauth->set_customer_secret("3c9c846dced8778666c992fa708f18d9c8c5ef1a");
 
+
 // We have all information, and are authorized
 if ( isset($_SESSION['access']['oauth_token'] ) ) {
     $oauth->set_token($_SESSION['access']['oauth_token']);
     $oauth->set_token_secret($_SESSION['access']['oauth_token_secret']);
     return true;
+}
+
+
+if ( isset($_COOKIE['auth']) ) {
+    $auth = json_decode($_COOKIE['auth'],true);
+
+    $oauth->set_token($auth['oauth_token']);
+    $oauth->set_token_secret($auth['oauth_token_secret']);
+
+    if ( !isset($_SESSION['user']) )
+        $_SESSION['user'] = $oauth->get('http://api.crew.dreamhack.se/1/user/get');
 }
 
 ?>

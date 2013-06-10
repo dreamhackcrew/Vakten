@@ -73,6 +73,12 @@
     $signedin = runOauth();
 
     if ( $signedin ) {
+        setcookie(
+            "auth",
+            json_encode($_SESSION['access']),
+            time() + (10 * 365 * 24 * 60 * 60),
+            '/'
+        );
         if ( !isset($_SESSION['user']) )
             $_SESSION['user'] = $oauth->get('http://api.crew.dreamhack.se/1/user/get');
 
