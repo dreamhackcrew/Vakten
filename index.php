@@ -1,4 +1,9 @@
 <?php
+
+
+	error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
     include('assets/php/start.php');
     include('assets/php/header.php');
 ?>
@@ -9,7 +14,7 @@
                 <p class="search-tag-line">Sök på personnummer, registreringsnummer, namn, nick (smeknamn) eller telefonnummer</p>
 
                 <form autocomplete="off"  class="search-form clearfix" id="search-form" novalidate="novalidate">
-                    <input type="text" title="* Please enter a search term!" placeholder="Skriv här för att söka" name="s" id="searchbox" class="search-term required" autocomplete="off" value="<?php echo $_GET['s']; ?>">
+                    <input type="text" title="* Please enter a search term!" placeholder="Skriv här för att söka" name="s" id="searchbox" class="search-term required" autocomplete="off" value="<?php echo isset($_GET['s'])?$_GET['s']:''; ?>">
                     <div id="search-error-container"></div>
                     <img src="/assets/images/spinner.gif" class="spinner">
                 </form>
@@ -18,9 +23,13 @@
 
 <div class="container-fluid main-container" id="main">
 <?php
-    if ( isset($_GET['s']) ) {
-        $result = $oauth->get('http://api.crew.dreamhack.se/1/eventinfo/search/'.$_GET['s']);
-
+	if ( isset($_GET['s']) ) {
+		try {
+	        $result = $oauth->get('http://api.crew.dreamhack.se/1/eventinfo/search/'.$_GET['s']);
+		} catch (Exception $err) {
+			die($err->getMessage());
+		}
+		
         if ( isset($result['oauth_problem']) ) {
             die('Kommunikationsproblem: '.$result['oauth_problem']);
         }

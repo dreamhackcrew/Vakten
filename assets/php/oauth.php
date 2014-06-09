@@ -1,6 +1,8 @@
 <?php
 
 ini_set('track_errors','On');
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 class oauth_client {
     function set_customer_key($key) {/*{{{*/
@@ -36,6 +38,7 @@ class oauth_client {
         $query['oauth_signature'] = $this->sign($this->base_string, $this->secret,'');
         
         $resp = file_get_contents("http://api.crew.dreamhack.se/oauth/request_token?".http_build_query($query));
+	//print_r("http://api.crew.dreamhack.se/oauth/request_token?".http_build_query($query));
         $resp = json_decode($resp,true);
 
         return $resp;
@@ -96,6 +99,7 @@ class oauth_client {
                     );
             $signature = base64_encode($hmac);
         }
+        //echo "BASE: $base_string<br>";
         //echo "BASE: $key<br>";
         return urlencode($signature);
     }/*}}}*/
@@ -131,6 +135,9 @@ class oauth_client {
                   'method' => 'GET',
             )
         );
+
+		if ( !isset($this->token) )
+			throw new Exception("Not signed in");
 
         $query = array(
             'oauth_consumer_key'=>$this->key,
@@ -195,8 +202,12 @@ if ( isset($_COOKIE['auth']) ) {
     $oauth->set_token($auth['oauth_token']);
     $oauth->set_token_secret($auth['oauth_token_secret']);
 
-    if ( !isset($_SESSION['user']) )
-        $_SESSION['user'] = $oauth->get('http://api.crew.dreamhack.se/1/user/get');
+	try{
+	    if ( !isset($_SESSION['user']) )
+	        $_SESSION['user'] = $oauth->get('http://api.crew.dreamhack.se/1/user/get');
+	} catch (Exception $err) {
+		
+	}
 }
 
 ?>

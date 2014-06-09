@@ -35,13 +35,15 @@
         }
 
         // Make shure we have a request_token
-        if ( !isset($_SESSION['request']) && !isset($_SESSION['token']) && !isset($_SESSION['access']) ) {
+        if ( (!isset($_SESSION['request']) || !$_SESSION['request']) && !isset($_SESSION['token']) && !isset($_SESSION['access']) ) {
             $_SESSION['request'] = $oauth->request_token('http://vakten.crew.dreamhack.se/pages/login.php');
         }
 
         if ( isset($_SESSION['request']['oauth_problem']) ) {
             // There is a problem with the request_token..
-            trigger_error('Oauth failed: '.$_SESSION['request']['oauth_problem'],E_USER_ERROR);
+			print_r($_SESSION);
+            trigger_error('Oauth failed: '.$_SESSION['request']['oauth_problem'],E_USER_WARNING);
+			unset($_SESSION['request']);
             return;
         }
 
@@ -94,7 +96,7 @@
     print_r($_SESSION);
     echo '</pre>';
 
-    echo $result;
+    //echo $result;
     ?>
 
 </div>
