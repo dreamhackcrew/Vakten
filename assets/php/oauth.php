@@ -101,7 +101,7 @@ class oauth_client {
         }
         //echo "BASE: $base_string<br>";
         //echo "BASE: $key<br>";
-        return urlencode($signature);
+        return $signature;
     }/*}}}*/
 
     function do_post_request($url, $data, $optional_headers = null)/*{{{*/

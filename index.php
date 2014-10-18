@@ -25,7 +25,7 @@ ini_set('display_errors', 1);
 <?php
 	if ( isset($_GET['s']) ) {
 		try {
-	        $result = $oauth->get('http://api.crew.dreamhack.se/1/eventinfo/search/'.$_GET['s']);
+	        $result = $oauth->get('http://api.crew.dreamhack.se/1/eventinfo/search/current/'.$_GET['s']);
 		} catch (Exception $err) {
 			die($err->getMessage());
 		}

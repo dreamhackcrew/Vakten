@@ -2,7 +2,7 @@
 
     include('assets/php/start.php');
 
-    $result = $oauth->get('http://api.crew.dreamhack.se/1/eventinfo/search/'.$_GET['term']);
+    $result = $oauth->get('http://api.crew.dreamhack.se/1/eventinfo/search/current/'.$_GET['term']);
 
     if ( isset($result['oauth_problem']) )
         die('Kommunikationsproblem: '.$result['oauth_problem']);
