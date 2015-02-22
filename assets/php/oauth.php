@@ -34,8 +34,7 @@ class oauth_client {
         }
 
         $this->base_string = 'GET&'.urlencode('http://api.crew.dreamhack.se/oauth/request_token').'&'.urlencode(http_build_query($query));
-
-        $query['oauth_signature'] = $this->sign($this->base_string, $this->secret,'');
+        $query['oauth_signature'] = urlencode($this->sign($this->base_string, $this->secret,''));
         
         $resp = file_get_contents("http://api.crew.dreamhack.se/oauth/request_token?".http_build_query($query));
 	//print_r("http://api.crew.dreamhack.se/oauth/request_token?".http_build_query($query));
@@ -62,7 +61,7 @@ class oauth_client {
         ksort($parameters);
 
         $this->base_string = 'POST&'.urlencode('http://api.crew.dreamhack.se/oauth/access_token').'&'.urlencode(http_build_query($parameters));
-        $query['oauth_signature'] = $this->sign($this->base_string, $this->secret,$this->token_secret);
+        $query['oauth_signature'] = urlencode($this->sign($this->base_string, $this->secret,$this->token_secret));
         
         $resp = $this->do_post_request("http://api.crew.dreamhack.se/oauth/access_token?".http_build_query($query),'oauth_verifier='.$verifier);
         $resp = json_decode($resp,true);
@@ -154,7 +153,7 @@ class oauth_client {
         }
 
         $base_string = 'GET&'.urlencode($url).'&'.urlencode(http_build_query($parameters));
-        $query['oauth_signature'] = $this->sign($base_string, $this->secret,$this->token_secret);
+        $query['oauth_signature'] = urlencode($this->sign($base_string, $this->secret,$this->token_secret));
 
         $query_string = array();
         foreach($query as $key => $line)
@@ -185,7 +184,7 @@ if ( isset($_GET['exit']) ) {
 $oauth = new oauth_client();
 
 $oauth->set_customer_key("45a3f35c73cbebd96736c94cd10eec32d422184a");
-$oauth->set_customer_secret("3c9c846dced8778666c992fa708f18d9c8c5ef1a");
+$oauth->set_customer_secret("0ed4297e3f81d2e4f5aea134332614b62724e7ce");
 
 
 // We have all information, and are authorized

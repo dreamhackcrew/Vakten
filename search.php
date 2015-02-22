@@ -10,8 +10,22 @@
     if (!$result)
         die('Hittade inga träffar, pröva sök på något annat!');
 
-    foreach($result as $key => $line ) {
-        include("assets/php/box.php");
+
+	$members = $nonmembers = array();
+	foreach($result as $key => $line ) {
+		if ( isset($line['teams']) ) {
+			$members[] = $line;
+		} else {
+			$nonmembers[] = $line;
+		}
     }
+
+    foreach($members as $key => $line ) {
+		include("assets/php/box.php");
+	}
+	echo '<hr>';
+    foreach($nonmembers as $key => $line ) {
+		include("assets/php/box.php");
+	}
 
 ?>
